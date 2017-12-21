@@ -31,23 +31,40 @@ class Dialog(QDialog, Ui_Dialog):
             i.clicked.connect(self.digitClicked)
         self.clearButton.clicked.connect(self.clear)
         self.clearAllButton.clicked.connect(self.clearAll)
+        self.wait = True
+        self.temp = 0
+        self.sumSoFar = 0.0
+        self.equalButton.clicked.connect(self.equalClicked)
+        self.pendingAdditiveOperator = ''
+        self.plusButton.clicked.connect(self.additiveOperatorClicked)
     def digitClicked(self):
-        
-        self.display.setText(self.display.text() + self.sender().text())
         '''
         使用者按下數字鍵, 必須能夠累積顯示該數字
         當顯示幕已經為 0, 再按零不會顯示 00, 而仍顯示 0 或 0.0
         
         '''
         #pass
-        
+        clickedButton = self.sender()
+        digitValue = int(clickedButton.text())
+        if self.display.text() == '0' and digitValue == 0:
+            return
+        if self.wait:
+            self.display.clear()
+            self.wait = False
+        self.display.setText(self.display.text() + str(digitValue))
     def unaryOperatorClicked(self):
         '''單一運算元按下後處理方法'''
         pass
         
     def additiveOperatorClicked(self):
         '''加或減按下後進行的處理方法'''
-        pass
+        #pass
+        clickedButton = self.sender()
+        clickedOperator = clickedButton.text()
+        self.pendingAdditiveOperator = clickedOperator
+        self.temp = float(self.display.text())
+        self.display.clear()
+        
         
     def multiplicativeOperatorClicked(self):
         '''乘或除按下後進行的處理方法'''
@@ -55,7 +72,9 @@ class Dialog(QDialog, Ui_Dialog):
         
     def equalClicked(self):
         '''等號按下後的處理方法'''
-        pass
+        #pass
+        self.display.setText(str(self.temp + float(self.display.text())))
+        self.wait = True
         
     def pointClicked(self):
         '''小數點按下後的處理方法'''
