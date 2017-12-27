@@ -36,6 +36,7 @@ class Dialog(QDialog, Ui_Dialog):
         for button in [self.timesButton, self.divisionButton]:
             button.clicked.connect(self.multiplicativeOperatorClicked)
         self.equalButton.clicked.connect(self.equalClicked)
+        self.backspaceButton.clicked.connect(self.backspaceClicked)
     
     def digitClicked(self):
         '''
@@ -135,7 +136,16 @@ class Dialog(QDialog, Ui_Dialog):
     def changeSignClicked(self):
         pass
     def backspaceClicked(self):
-        pass
+        #pass
+         #if self.wait:
+            #return
+        text = self.display.text()[:-1]
+        if not text:
+            text = '0'
+            self.wait = True
+        self.display.setText(text)
+
+        
     def clear(self):
         '''清除鍵按下後的處理方法'''
         self.display.setText('0')
