@@ -25,6 +25,7 @@ class Dialog(QDialog, Ui_Dialog):
         self.sumInMemory = 0.0
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
+        self.pushButton_22.clicked.connect(self.pointClicked)
         self.waitingForOperand = True
         number = [self.zero, self.one, self.two, self.three, self.four,
             self.five, self.six ,self.seven ,self.eight, self.nine]
@@ -157,7 +158,14 @@ class Dialog(QDialog, Ui_Dialog):
         self.waitingForOperand = True
     
     def pointClicked(self):
-        pass
+        #pass
+        if self.waitingForOperand:
+            self.display.setText('0')
+ 
+        if "." not in self.display.text():
+            self.display.setText(self.display.text() + ".")
+ 
+        self.waitingForOperand = False
     def changeSignClicked(self):
         pass
     def backspaceClicked(self):
@@ -167,14 +175,14 @@ class Dialog(QDialog, Ui_Dialog):
         text = self.display.text()[:-1]
         if not text:
             text = '0'
-            self.wait = True
+            self.waitingForOperand = True
         self.display.setText(text)
 
         
     def clear(self):
         '''清除鍵按下後的處理方法'''
         self.display.setText('0')
-        self.wait = True
+        self.waitingForOperand = True
     
     def clearAll(self):
         '''全部清除鍵按下後的處理方法'''
