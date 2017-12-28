@@ -42,7 +42,8 @@ class Dialog(QDialog, Ui_Dialog):
         unaryOperator = [self.squareRootButton, self.powerButton,  self.reciprocalButton ]
         for i in unaryOperator:
             i.clicked.connect(self.unaryOperatorClicked)
-            
+        self.changeSignButton.clicked.connect(self.changeSignClicked)
+        
     def digitClicked(self):
         '''
         使用者按下數字鍵, 必須能夠累積顯示該數字
@@ -167,7 +168,14 @@ class Dialog(QDialog, Ui_Dialog):
  
         self.waitingForOperand = False
     def changeSignClicked(self):
-        pass
+        #pass
+        text = self.display.text()
+        value = float(text)
+        if value > 0.0:
+            text = "-" + text
+        elif value < 0.0:
+            text = text[1:]
+        self.display.setText(text)
     def backspaceClicked(self):
         #pass
          #if self.wait:
