@@ -24,6 +24,7 @@ class Dialog(QDialog, Ui_Dialog):
         self.sumInMemory = 0.0
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
+        self.pushButton_22.clicked.connect(self.pointClicked)
         self.waitingForOperand = True
         number = [self.zero, self.one, self.two, self.three, self.four,
             self.five, self.six ,self.seven ,self.eight, self.nine]
@@ -132,7 +133,14 @@ class Dialog(QDialog, Ui_Dialog):
         self.waitingForOperand = True
     
     def pointClicked(self):
-        pass
+        #pass
+        if self.waitingForOperand:
+            self.display.setText('0')
+ 
+        if "." not in self.display.text():
+            self.display.setText(self.display.text() + ".")
+ 
+        self.waitingForOperand = False
     def changeSignClicked(self):
         pass
     def backspaceClicked(self):
