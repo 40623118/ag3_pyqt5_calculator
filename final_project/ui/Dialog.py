@@ -142,14 +142,14 @@ class Dialog(QDialog, Ui_Dialog):
         text = self.display.text()[:-1]
         if not text:
             text = '0'
-            self.wait = True
+            self.waitingForOperand = True
         self.display.setText(text)
 
         
     def clear(self):
         '''清除鍵按下後的處理方法'''
         self.display.setText('0')
-        self.wait = True
+        self.waitingForOperand = True
     
     def clearAll(self):
         '''全部清除鍵按下後的處理方法'''
