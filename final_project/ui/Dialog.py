@@ -8,6 +8,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 
 from .Ui_Dialog import Ui_Dialog
+import math
 
 
 class Dialog(QDialog, Ui_Dialog):
@@ -37,7 +38,10 @@ class Dialog(QDialog, Ui_Dialog):
             button.clicked.connect(self.multiplicativeOperatorClicked)
         self.equalButton.clicked.connect(self.equalClicked)
         self.backspaceButton.clicked.connect(self.backspaceClicked)
-    
+        unaryOperator = [self.squareRootButton, self.powerButton,  self.reciprocalButton ]
+        for i in unaryOperator:
+            i.clicked.connect(self.unaryOperatorClicked)
+            
     def digitClicked(self):
         '''
         使用者按下數字鍵, 必須能夠累積顯示該數字
@@ -54,7 +58,28 @@ class Dialog(QDialog, Ui_Dialog):
     
     def unaryOperatorClicked(self):
         '''單一運算元按下後處理方法'''
-        pass
+        #pass
+        clickedButton = self.sender()
+        clickedOperator = clickedButton.text()
+        operand = float(self.display.text())
+ 
+        if clickedOperator == "Sqrt":
+            if operand < 0.0:
+                self.abortOperation()
+                return
+ 
+            result = math.sqrt(operand)
+        elif clickedOperator == "X^2":
+            result = math.pow(operand, 2.0)
+        elif clickedOperator == "1/x":
+            if operand == 0.0:
+                self.abortOperation()
+                return
+ 
+            result = 1.0 / operand
+ 
+        self.display.setText(str(result))
+        self.waitingForOperand = True
     
     def additiveOperatorClicked(self):
         '''加或減按下後進行的處理方法'''
@@ -181,7 +206,9 @@ class Dialog(QDialog, Ui_Dialog):
         pass
     
     def abortOperation(self):   
-        pass
+        #pass
+        self.clearAll()
+        self.display.setText("####")
     
     def calculate(self, rightOperand, pendingOperator):
         '''計算'''
