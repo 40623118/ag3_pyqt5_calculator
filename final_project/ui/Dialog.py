@@ -29,6 +29,10 @@ class Dialog(QDialog, Ui_Dialog):
         self.waitingForOperand = True
         number = [self.zero, self.one, self.two, self.three, self.four,
             self.five, self.six ,self.seven ,self.eight, self.nine]
+        self.clearMemoryButton.clicked.connect(self.clearMemory)
+        self.readMemoryButton.clicked.connect(self.readMemory)
+        self.setMemoryButton.clicked.connect(self.setMemory)
+        self.addToMemoryButton.clicked.connect(self.addToMemory)
         for i in number:
            i.clicked.connect(self.digitClicked)
         self.clearButton.clicked.connect(self.clear)
@@ -202,21 +206,19 @@ class Dialog(QDialog, Ui_Dialog):
         self.waitingForOperand = True
     
     def clearMemory(self):
-        '''清除記憶體鍵按下後的處理方法'''
-        pass
-    
+        self.sumInMemory = 0.0
+ 
     def readMemory(self):
-        '''讀取記憶體鍵按下後的處理方法'''
-        pass
-    
+        self.display.setText(str(self.sumInMemory))
+        self.waitingForOperand = True
+ 
     def setMemory(self):
-        '''設定記憶體鍵按下後的處理方法'''
-        pass
-    
+        self.equalClicked()
+        self.sumInMemory = float(self.display.text())
+ 
     def addToMemory(self):
-        '''放到記憶體鍵按下後的處理方法'''
-        pass
-    
+        self.equalClicked()
+        self.sumInMemory += float(self.display.text())
     def createButton(self):
         ''' 建立按鍵處理方法, 以 Qt Designer 建立對話框時, 不需要此方法'''
         pass
