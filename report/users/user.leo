@@ -99,15 +99,12 @@ g.es('-'*12)</t>
 <t tx="ahshoe.20161120122151.1">---
 university_zh: '國立虎尾科技大學'
 institute_zh: '機械設計工程系'
-category_zh: '計算機程式 ag1 期末報告'
+category_zh: '計算機程式 ag3 期末報告'
 title_zh: 'PyQt5 事件導向計算器'
 title_en: 'PyQt5 Event-Driven Calculator Project'
 author:
-- 設計二乙 1731001 XXX
-- 設計二乙 1731001 XXX
-- 設計二乙 1731001 XXX
-- 設計二乙 1731002 XXX
-- 設計二乙 1731002 XXX
+- 四設計二甲 40623118 楊秉澤
+
 
 advisor_zh: '嚴家銘'
 date: '2017.12.18'
