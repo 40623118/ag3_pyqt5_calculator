@@ -8,6 +8,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 
 from .Ui_Dialog import Ui_Dialog
+import math
 
 
 class Dialog(QDialog, Ui_Dialog):
@@ -28,6 +29,10 @@ class Dialog(QDialog, Ui_Dialog):
         self.waitingForOperand = True
         number = [self.zero, self.one, self.two, self.three, self.four,
             self.five, self.six ,self.seven ,self.eight, self.nine]
+        self.clearMemoryButton.clicked.connect(self.clearMemory)
+        self.readMemoryButton.clicked.connect(self.readMemory)
+        self.setMemoryButton.clicked.connect(self.setMemory)
+        self.addToMemoryButton.clicked.connect(self.addToMemory)
         for i in number:
            i.clicked.connect(self.digitClicked)
         self.clearButton.clicked.connect(self.clear)
@@ -38,7 +43,11 @@ class Dialog(QDialog, Ui_Dialog):
             button.clicked.connect(self.multiplicativeOperatorClicked)
         self.equalButton.clicked.connect(self.equalClicked)
         self.backspaceButton.clicked.connect(self.backspaceClicked)
-    
+        unaryOperator = [self.squareRootButton, self.powerButton,  self.reciprocalButton ]
+        for i in unaryOperator:
+            i.clicked.connect(self.unaryOperatorClicked)
+        self.changeSignButton.clicked.connect(self.changeSignClicked)
+        
     def digitClicked(self):
         '''
         使用者按下數字鍵, 必須能夠累積顯示該數字
@@ -55,7 +64,28 @@ class Dialog(QDialog, Ui_Dialog):
     
     def unaryOperatorClicked(self):
         '''單一運算元按下後處理方法'''
-        pass
+        #pass
+        clickedButton = self.sender()
+        clickedOperator = clickedButton.text()
+        operand = float(self.display.text())
+ 
+        if clickedOperator == "Sqrt":
+            if operand < 0.0:
+                self.abortOperation()
+                return
+ 
+            result = math.sqrt(operand)
+        elif clickedOperator == "X^2":
+            result = math.pow(operand, 2.0)
+        elif clickedOperator == "1/x":
+            if operand == 0.0:
+                self.abortOperation()
+                return
+ 
+            result = 1.0 / operand
+ 
+        self.display.setText(str(result))
+        self.waitingForOperand = True
     
     def additiveOperatorClicked(self):
         '''加或減按下後進行的處理方法'''
@@ -142,7 +172,14 @@ class Dialog(QDialog, Ui_Dialog):
  
         self.waitingForOperand = False
     def changeSignClicked(self):
-        pass
+        #pass
+        text = self.display.text()
+        value = float(text)
+        if value > 0.0:
+            text = "-" + text
+        elif value < 0.0:
+            text = text[1:]
+        self.display.setText(text)
     def backspaceClicked(self):
         #pass
          #if self.wait:
@@ -169,27 +206,27 @@ class Dialog(QDialog, Ui_Dialog):
         self.waitingForOperand = True
     
     def clearMemory(self):
-        '''清除記憶體鍵按下後的處理方法'''
-        pass
-    
+        self.sumInMemory = 0.0
+ 
     def readMemory(self):
-        '''讀取記憶體鍵按下後的處理方法'''
-        pass
-    
+        self.display.setText(str(self.sumInMemory))
+        self.waitingForOperand = True
+ 
     def setMemory(self):
-        '''設定記憶體鍵按下後的處理方法'''
-        pass
-    
+        self.equalClicked()
+        self.sumInMemory = float(self.display.text())
+ 
     def addToMemory(self):
-        '''放到記憶體鍵按下後的處理方法'''
-        pass
-    
+        self.equalClicked()
+        self.sumInMemory += float(self.display.text())
     def createButton(self):
         ''' 建立按鍵處理方法, 以 Qt Designer 建立對話框時, 不需要此方法'''
         pass
     
     def abortOperation(self):   
-        pass
+        #pass
+        self.clearAll()
+        self.display.setText("####")
     
     def calculate(self, rightOperand, pendingOperator):
         '''計算'''
