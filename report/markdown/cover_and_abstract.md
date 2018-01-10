@@ -6,6 +6,8 @@ title_zh: 'PyQt5 事件導向計算器'
 title_en: 'PyQt5 Event-Driven Calculator Project'
 author:
 - 四設計二甲 40623118 楊秉澤
+- 四設計二甲 40623118 楊秉澤
+- 四設計二甲 40623118 楊秉澤
 
 
 advisor_zh: '嚴家銘'
